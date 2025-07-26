@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!--Css-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="">
+
+
+    <!--Material desing-->
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+</head>
+
+<body class="margin_body">
+
+    <!--flotante-->
+
+    <md-fab aria-label="Add" id="btn_add">
+        <md-icon slot="icon">Add</md-icon>
+    </md-fab>
+    <!--modal-->
+    <div>
+        <md-dialog id="dialog_url">
+            <div slot="headline">
+                Url
+            </div>
+            <form slot="content" id="form-id" method="dialog">
+                <md-outlined-text-field label="Ingresa Url" id="url_input" name="url_input" required>
+                    <md-icon id="icon-bottom" slot="trailing-icon">cancel</md-icon>
+                </md-outlined-text-field>
+                <md-filled-button id="btn_guardar">Guardar</md-filled-button>
+            </form>
+            <div slot="actions">
+                <div id="msn"></div>
+                <md-filled-tonal-button form="form-id" id="btn_close">Cerrar</md-filled-tonal-button>
+            </div>
+        </md-dialog>
+    </div>
+
+    <!--Contenido-->
+    <div class="content_list">
+        <h1 class="md-typescale-display-medium">ListUrl</h1>
+        <md-divider></md-divider>
+        <!-- Contenido de url-->
+        <md-list id="list" style="background-color: white;">
+            <!-- <md-linear-progress indeterminate></md-linear-progress>
+            <md-circular-progress indeterminate></md-circular-progress> -->
+        </md-list>
+        <nav id="pagina">
+            <md-filled-tonal-button id="antes">Anterior</md-filled-tonal-button>
+            <md-filled-tonal-button id="despues">Siguiente</md-filled-tonal-button>
+        </nav>
+    </div>
+
+
+    <template id="template">
+        <md-list-item>
+            <div slot="trailing-supporting-text"></div>
+            <a target="_blank"></a>
+            <img slot="start" style="width: 56px">
+        </md-list-item>
+        <md-divider></md-divider>
+    </template>
+    <!-- Script-->
+    <script src="src/js/app.js" type="module"></script>
+    <!-- <script src="src/js/index.js" type="module"></script> -->
+</body>
+
+</html>

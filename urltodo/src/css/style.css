@@ -1,0 +1,70 @@
+:root {
+    --success: #198754;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: rgba(214, 214, 214, 0.5);
+    margin: 30px;
+}
+
+form {
+    display: grid;
+    gap: 20px;
+}
+
+md-fab {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 1000;
+}
+
+#icon-bottom {
+    cursor: pointer;
+}
+
+#dialog_url {
+    width: 80%;
+}
+
+div [slot="actions"] {
+    justify-content: space-between;
+}
+
+div#msn {
+    color: var(--success);
+    align-content: center;
+}
+
+.content_list {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
+}
+
+nav {
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+md-filled-tonal-button:first-child {
+    margin-right: 10px;
+}
+
+md-list md-list-item a {
+    color: black;
+    text-decoration: none;
+}
+
+md-list md-list-item p {
+
+    background-color: #dc3545;
+}
