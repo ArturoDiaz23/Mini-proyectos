@@ -17,7 +17,7 @@ firebase.auth().onAuthStateChanged((user) => {
 btn_login.addEventListener("click", async (e) => {
     try {
         currenUser = await login();
-        conso
+        console.log("Login successful:", currenUser);
     } catch (error) {
         console.error("Login failed:", error);
     }
