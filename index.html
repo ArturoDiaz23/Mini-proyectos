@@ -4,16 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!--Css-->
+    <link rel="stylesheet" href="urltodo/src/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script type="importmap">
+        {
+          "imports": {
+            "@material/web/": "https://esm.run/@material/web/"
+          }
+        }
+      </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script type="importmap">
+        {
+          "imports": {
+            "@material/web/": "https://esm.run/@material/web/"
+          }
+        }
+      </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+    <title>Inicio prácticas</title>
 </head>
 
 <body>
-    <h3>Proyectos de prácticas</h3>
-    <ul>
-        <li id="url1"><a href="calendar/index.html" target="_blank">Calendario</a></li>
-        <li id="url2"><a href="urltodo/index.html" target="_blank">Lista Url</a></li>
-        <li id="url3"><a href="dirSuc/index.html" target="_blank">Sucursales</a></li>
-    </ul>
+    <h3 class="md-typescale-display-medium">Proyectos de prácticas</h3>
+    <md-list>
+        <md-list-item>
+            <div slot="trailing-supporting-text"></div>
+            <a href="calendar/index.html" target="_blank">Calendario</a>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item>
+            <div slot="trailing-supporting-text"></div>
+            <a href="urltodo/index.html" target="_blank">Lista Url</a>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item>
+            <div slot="trailing-supporting-text"></div>
+            <a href="dirSuc/index.html" target="_blank">Sucursales</a>
+        </md-list-item>
+        <md-divider></md-divider>
+    </md-list>
+
 </body>
 
 </html>
