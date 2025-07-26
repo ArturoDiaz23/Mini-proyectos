@@ -1,0 +1,56 @@
+[
+    {
+        "id": "1",
+        "nombre": "Daniela",
+        "paterno": "Carrasco",
+        "materno": "Cruz",
+        "hora": "09:00 a.m",
+        "fecha": "28/3/2025",
+        "disponible": 1
+    },
+    {
+        "id": "2",
+        "nombre": "Daniela",
+        "paterno": "Carrasco",
+        "materno": "Cruz",
+        "hora": "11:00 a.m",
+        "fecha": "28/3/2025",
+        "disponible": 1
+    },
+    {
+        "id": "3",
+        "nombre": "",
+        "paterno": "",
+        "materno": "",
+        "hora": "01:00 p.m",
+        "fecha": "28/3/2025",
+        "disponible": 0
+    },
+    {
+        "id": "4",
+        "nombre": "Daniela",
+        "paterno": "Carrasco",
+        "materno": "Cruz",
+        "hora": "03:00 p.m",
+        "fecha": "28/3/2025",
+        "disponible": 1
+    },
+    {
+        "id": "5",
+        "nombre": "Daniela",
+        "paterno": "Carrasco",
+        "materno": "Cruz",
+        "hora": "05:00 p.m",
+        "fecha": "28/3/2025",
+        "disponible": 1
+    },
+    {
+        "id": "6",
+        "nombre": "",
+        "paterno": "",
+        "materno": "",
+        "hora": "07:00 p.m",
+        "fecha": "28/3/2025",
+        "disponible": 0
+    }
+]

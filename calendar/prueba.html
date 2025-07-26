@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<style>
+    body {
+        scroll-behavior: smooth;
+    }
+
+    .contenido {
+        display: flex;
+        overflow-x: auto;
+
+        scroll-snap-type: x mandatory;
+
+        padding: 24px;
+        gap: 12px;
+        scroll-padding: 24px;
+    }
+
+    .contenido>.items {
+        flex: 0 0 100%;
+        scroll-snap-align: start;
+    }
+</style>
+
+<body>
+    <div class="contenido">
+        <div class="items">HTML</div>
+        <div class="items">CSS</div>
+        <div class="items">JS</div>
+        <div class="items">MDC</div>
+        <div class="items">BT</div>
+    </div>
+</body>
+
+</html>
