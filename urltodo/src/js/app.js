@@ -53,8 +53,6 @@ const List = () => {
         });
         list.appendChild(fragment);
     }, 400); // Simular un retraso para mostrar el progreso
-
-
 }
 
 /** Boton antes */
@@ -109,7 +107,8 @@ document.getElementById('form-id').addEventListener('submit', (e) => {
     if (validarURL(array2, url_input.value) === false) {
         remove_error(url_input);
         const data = new Object.fromEntries(new FormData(e.target));
-        guardar(data);
+        console.log(data);
+        //guardar(data);
         msn.innerHTML = 'agregando... ';
     }
     if (validarURL(array2, url_input.value) === true) {

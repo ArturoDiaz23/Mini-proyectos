@@ -1,3 +1,4 @@
+
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -6,7 +7,6 @@ auth.languageCode = 'es';
 export async function login() {
     try {
         const reponse = await auth.signInWithPopup(provider);
-        console.log
         return reponse.user;
     } catch (error) {
         throw new Error(`Error during login: ${error.message}`);

@@ -4,32 +4,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!--Material desing-->
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script type="importmap">
+        {
+          "imports": {
+            "@material/web/": "https://esm.run/@material/web/"
+          }
+        }
+      </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
     <title>Todo List</title>
 </head>
 
 <body>
 
     <div id="app">
-        <button id="btn_login">Login google</button>
-        <button id="btn_logout" class="hidden">Logout</button>
+        <button id="btn_login">Iniciar con google</button>
+        <button id="btn_logout" class="hidden">Cerrar sección</button>
     </div>
 
-    <form action="" id="sucursal">
-        <div id="id_user"></div>
-        <input type="text" name="sucursal" id="sucursal" placeholder="Sucursal" autocomplete="off">
-    </form>
+    <md-fab aria-label="Add" id="btn_add">
+        <md-icon slot="icon">Add</md-icon>
+    </md-fab>
 
-    <div id="contanier"></div>
+    <div id="id_user"></div>
 
 
+    <md-dialog id="dialog_sucursal">
+        <div slot="headline">
+            Nueva sucursal
+        </div>
+        <form slot="content" id="form_sucursal" method="dialog">
+            <md-outlined-text-field label="CR Sucursal" id="cr" name="cr" autocomplete="off"></md-outlined-text-field>
+            <md-outlined-text-field label="sucursal" id="sucursal" name="sucursal" autocomplete="off">
+            </md-outlined-text-field>
+            <md-outlined-text-field label="direccion" id="direccion" name="direccion" autocomplete="off">
+            </md-outlined-text-field>
+            <md-outlined-text-field label="municipio" id="municipio" name="municipio" autocomplete="off">
+            </md-outlined-text-field>
+            <md-outlined-text-field label="estado" id="estado" name="esta" autocomplete="off">
+            </md-outlined-text-field>
+
+            <md-filled-tonal-button>Guardar</md-filled-tonal-button>
+        </form>
+        <div slot="actions">
+            <div id="msn"></div>
+            <md-filled-tonal-button id="btn_close">Cerrar</md-filled-tonal-button>
+        </div>
+    </md-dialog>
+
+
+    <!-- Contenido de sucursales-->
+    <div id="contanier">
+        <h1 class="md-typescale-display-small">Sucursales</h1>
+        <md-divider></md-divider>
+        <!-- Lista de sucursales-->
+        <md-list id="list"></md-list>
+    </div>
+
+
+    <template id="template">
+        <md-list-item>
+            <span id="cr"></span>
+            <span id="sucursal"></span>
+            <span id="municipio"></span>
+            <span id="estado"></span>
+            <a id="direccion" target="_blank"></a>
+            <!-- <span slot="trailing-supporting-text"> -->
+        </md-list-item>
+        <md-divider></md-divider>
+    </template>
 
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script defer src="init-firebase.js"></script>
-
-    <script src="app.js" type="module"></script>
+    </script>
+    <script defer type="module" src="src/js/init-firebase.js"></script>
+    <script src="src/js/app.js" type="module"></script>
 </body>
 
 </html>
