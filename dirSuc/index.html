@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Todo List</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <button id="btn_login">Login google</button>
+        <button id="btn_logout" class="hidden">Logout</button>
+    </div>
+
+    <form action="" id="sucursal">
+        <div id="id_user"></div>
+        <input type="text" name="sucursal" id="sucursal" placeholder="Sucursal" autocomplete="off">
+    </form>
+
+    <div id="contanier"></div>
+
+
+
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script defer src="init-firebase.js"></script>
+
+    <script src="app.js" type="module"></script>
+</body>
+
+</html>
