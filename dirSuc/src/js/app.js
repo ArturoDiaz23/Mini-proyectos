@@ -118,7 +118,7 @@ const renderSuc = () => {
 
         template_suc.querySelector('#cr').textContent = item.cr;
         template_suc.querySelector('#sucursal').textContent = item.sucursal;
-        template_suc.querySelector('#direccion')..setAttribute('href', item.direccion);
+        template_suc.querySelector('#direccion').setAttribute('href', item.direccion);
         template_suc.querySelector('#municipio').textContent = item.municipio;
         template_suc.querySelector('#estado').textContent = item.estado;
 
