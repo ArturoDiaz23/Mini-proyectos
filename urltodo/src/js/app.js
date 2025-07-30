@@ -4,9 +4,6 @@ import { insert, get, delet } from './firestore.js';
 
 import { progress, validarURL, add_error, remove_error } from './functions.js';
 
-
-const info = await get();
-
 /** Llamado de id home */
 let url_input = document.getElementById('url_input');
 let btn_guardar = document.getElementById('btn_guardar');
@@ -32,8 +29,17 @@ let pag = 1;
 let offset = 0;
 let limit = 8;
 
-let array = info.slice(offset, limit);
-const array2 = [];
+var info = await get();
+var array = info.slice(offset, limit);
+var array2 = [];
+
+// function load() {
+
+//     setTimeout(async () => {
+//         info = await get();
+//         array = info.slice(offset, limit);
+//     }, 100);
+// }
 
 let currenUser;
 
@@ -60,9 +66,18 @@ btn_logout.addEventListener("click", async (e) => {
     logout();
 });
 
+// async function loading_data() {
+//     try {
+//         const response = await get();
+//         const info = await response;
+//         List(info);
+//     } catch (e) {
+//         throw new Error("Error loading: " + e.message);
+//     }
+// }
 
 //carga datos de la DB
-const List = () => {
+const loading_data = () => {
     list.replaceChildren();
     progress(list);
     setTimeout(() => {
@@ -85,7 +100,7 @@ const List = () => {
             // list.appendChild(separador);
         });
         list.appendChild(fragment);
-    }, 1000); // Simular un retraso para mostrar el progreso
+    }, 800); // Simular un retraso para mostrar el progreso
 }
 
 /** Boton antes */
@@ -95,7 +110,7 @@ antes.addEventListener('click', () => {
         pag--;
         array = info.slice(offset, limit * pag);
         console.log(array);
-        List();
+        loading_data();
     }
 });
 /** Boton despues */
@@ -104,31 +119,13 @@ despues.addEventListener('click', () => {
     pag++
     array = info.slice(offset, limit * pag);
     console.log(array);
-    List();
+    loading_data();
 });
 
 /** Abrir el modal */
 btn_add.addEventListener('click', () => {
     dialog_url.show();
 });
-
-/** Agregar eveto btn para insertar Url */
-// const validar_content = (id_element) => {
-//     let valido = false;
-//     if (id_element.value === '') {
-//         add_error(url_input, 'Debe ingresar una Url');
-//         return valido = false;
-//     }
-//     if (validarURL(array2, id_element.value) === false) {
-//         remove_error(url_input);
-//         return valido = false;
-//     }
-//     if (validarURL(array2, id_element.value) === true) {
-//         add_error(url_input, 'Ya existe en la Lista');
-//         return valido = true;
-//     }
-//     return valido;
-// };
 
 document.getElementById('form-id').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -141,7 +138,10 @@ document.getElementById('form-id').addEventListener('submit', (e) => {
         remove_error(url_input);
         // const data = new Object.fromEntries(new FormData(e.target));
         add_newUrl(url_input.value);
+        url_input.value = '';
+        dialog_url.close();
         //msn.innerHTML = 'agregando... ';
+
     }
     if (validarURL(array2, url_input.value) === true) {
         add_error(url_input, 'Ya existe en la Lista');
@@ -155,7 +155,8 @@ async function add_newUrl(url) {
     try {
         const items = { url: url }
         const response = await insert(items);
-        List();
+        window.location.reload()
+        loading_data();
     } catch (e) {
         console.log("Error insert: " + e);
     }
@@ -192,7 +193,8 @@ async function delete_url(id) {
     try {
         const response = await delet(id);
         console.log("Deleted successfully");
-        List();
+        window.location.reload()
+        loading_data();
     } catch (error) {
         console.error("Error deleting:", error);
     }
@@ -235,6 +237,6 @@ function init() {
     `;
     // <img src="${currenUser.photoURL}" alt="User Avatar">
 
-    List();
+    loading_data();
 }
 
