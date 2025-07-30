@@ -32,19 +32,28 @@
 
 <body class="margin_body">
 
+    <div id="nav">
+        <div id="app">
+            <md-filled-button id="btn_login">Iniciar con google</md-filled-button>
+            <md-filled-button id="btn_logout" class="hidden">Cerrar sección</md-filled-button>
+        </div>
+        <div class="hidden" id="id_user"></div>
+    </div>
+
     <!--flotante-->
 
-    <md-fab aria-label="Add" id="btn_add">
+    <md-fab aria-label="Add" id="btn_add" class="hidden">
         <md-icon slot="icon">Add</md-icon>
     </md-fab>
-    <!--modal-->
+    <!-- ----------------------------------------------------------->
+    <!--     dialog insert    -->
     <div>
         <md-dialog id="dialog_url">
             <div slot="headline">
                 Url
             </div>
             <form slot="content" id="form-id" method="dialog">
-                <md-outlined-text-field label="Ingresa Url" id="url_input" name="url_input" required>
+                <md-outlined-text-field label="Ingresa Url" id="url_input" name="url_input">
                     <md-icon id="icon-bottom" slot="trailing-icon">cancel</md-icon>
                 </md-outlined-text-field>
                 <md-filled-button id="btn_guardar">Guardar</md-filled-button>
@@ -56,8 +65,22 @@
         </md-dialog>
     </div>
 
+    <!-- ----------------------------------------------------------->
+    <!--     dialog alert delet    -->
+    <md-dialog type="alert" id="alert_dialog">
+        <div slot="headline">Confirmación</div>
+        <form slot="content" id="form-alert" method="dialog">
+            ¿Está seguro de eliminar esta Sucursal?
+            <p id="id_delete" style="margin: 10px 0 0;"></p>
+        </form>
+        <div slot="actions">
+            <md-text-button form="form-alert" value="cancel">Cancelar</md-text-button>
+            <md-text-button form="form-alert" id="form_alert_eliminar">Eliminar</md-text-button>
+        </div>
+    </md-dialog>
+
     <!--Contenido-->
-    <div class="content_list">
+    <div class="content_list hidden" id="contenido_url">
         <h1 class="md-typescale-display-medium">ListUrl</h1>
         <md-divider></md-divider>
         <!-- Contenido de url-->
@@ -74,13 +97,21 @@
 
     <template id="template">
         <md-list-item>
-            <div slot="trailing-supporting-text"></div>
             <a target="_blank"></a>
-            <img slot="start" style="width: 56px">
+            <!-- <img slot="start" style="width: 56px"> -->
+            <span slot="trailing-supporting-text" class="material-symbols-outlined btn_icon btn_delete">
+                delete
+            </span>
         </md-list-item>
         <md-divider></md-divider>
     </template>
     <!-- Script-->
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    </script>
+    <script defer type="module" src="src/js/init-firebase.js"></script>
+
     <script src="src/js/app.js" type="module"></script>
     <!-- <script src="src/js/index.js" type="module"></script> -->
 </body>

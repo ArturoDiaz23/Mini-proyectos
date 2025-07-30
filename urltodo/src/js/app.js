@@ -1,9 +1,11 @@
 
-import { cargarData } from './fetchJson.js';
+//import { cargarData } from './fetchJson.js';
+import { insert, get, delet } from './firestore.js';
+
 import { progress, validarURL, add_error, remove_error } from './functions.js';
 
 
-const info = await cargarData();
+const info = await get();
 
 /** Llamado de id home */
 let url_input = document.getElementById('url_input');
@@ -12,6 +14,12 @@ let btn_add = document.getElementById('btn_add');
 let dialog_url = document.getElementById('dialog_url');
 let msn = document.getElementById('msn');
 let btn_close = document.getElementById('btn_close');
+let contenido_url = document.getElementById('contenido_url');
+
+//Delet sucursal
+const alert_dialog = document.getElementById('alert_dialog');
+const form_alert_eliminar = document.getElementById('form_alert_eliminar');
+const id_delete = document.getElementById('id_delete');
 
 const list = document.getElementById('list');
 const template_list = document.getElementById('template').content;
@@ -25,20 +33,45 @@ let offset = 0;
 let limit = 8;
 
 let array = info.slice(offset, limit);
-let array2 = info;
-//console.log(array);
-const DB = [];
+const array2 = [];
 
+let currenUser;
+
+//data user
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        currenUser = user;
+        init();
+    } else {
+        console.log("No user is signed in.");
+    }
+});
+
+btn_login.addEventListener("click", async (e) => {
+    try {
+        currenUser = await login();
+    } catch (error) {
+        console.error("Login failed:", error);
+    }
+});
+
+btn_logout.addEventListener("click", async (e) => {
+    toogle_btn();
+    logout();
+});
+
+
+//carga datos de la DB
 const List = () => {
     list.replaceChildren();
     progress(list);
     setTimeout(() => {
         list.replaceChildren(); // Limpiar el contenido previo de la lista
         array.forEach(element => {
-            template_list.querySelector('div').textContent = element.id;
-            template_list.querySelector('a').setAttribute('href', element.url);
-            template_list.querySelector('a').textContent = element.url;
-            template_list.querySelector('img').setAttribute('src', element.image);
+            template_list.querySelector('a').setAttribute('href', element[1].url);
+            template_list.querySelector('a').textContent = element[1].url;
+            // template_list.querySelector('img').setAttribute('src', element.image);
+            template_list.querySelector('.btn_delete').dataset.id = element[0];
 
             const clone = template_list.cloneNode(true);
             fragment.appendChild(clone);
@@ -52,7 +85,7 @@ const List = () => {
             // list.appendChild(separador);
         });
         list.appendChild(fragment);
-    }, 400); // Simular un retraso para mostrar el progreso
+    }, 1000); // Simular un retraso para mostrar el progreso
 }
 
 /** Boton antes */
@@ -79,7 +112,6 @@ btn_add.addEventListener('click', () => {
     dialog_url.show();
 });
 
-
 /** Agregar eveto btn para insertar Url */
 // const validar_content = (id_element) => {
 //     let valido = false;
@@ -100,41 +132,72 @@ btn_add.addEventListener('click', () => {
 
 document.getElementById('form-id').addEventListener('submit', (e) => {
     e.preventDefault();
+    info.forEach(item => { array2.push(item[1]); });
     if (url_input.value === '') {
         add_error(url_input, 'Debe ingresar una Url');
         return;
     }
     if (validarURL(array2, url_input.value) === false) {
         remove_error(url_input);
-        const data = new Object.fromEntries(new FormData(e.target));
-        console.log(data);
-        //guardar(data);
-        msn.innerHTML = 'agregando... ';
+        // const data = new Object.fromEntries(new FormData(e.target));
+        add_newUrl(url_input.value);
+        //msn.innerHTML = 'agregando... ';
     }
     if (validarURL(array2, url_input.value) === true) {
         add_error(url_input, 'Ya existe en la Lista');
         return;
     }
+    e.stopPropagation();
 
 });
 
-// async function enviar(document_url, new_url) {
-//     try {
-//         const response = await fetch(document_url, {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify(new_url)
-//         });
-//         const data = await response.json();
-//         return data;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+async function add_newUrl(url) {
+    try {
+        const items = { url: url }
+        const response = await insert(items);
+        List();
+    } catch (e) {
+        console.log("Error insert: " + e);
+    }
+
+}
 
 document.getElementById('icon-bottom').addEventListener('click', () => {
     url_input.value = '';
 });
+
+
+/**----------------------------------------------------------- */
+/** Funcion y event para eliminar una sucursal */
+//agregar evento a btn_delete
+list.addEventListener('click', e => {
+    e.preventDefault();
+    if (e.target.classList.contains('btn_delete')) {
+        id_delete.textContent = data_to_confirm(e.target.parentElement);
+        console.log(id_delete);
+        alert_dialog.show();
+        form_alert_eliminar.addEventListener('click', () => {
+            delete_url(e.target.dataset.id)
+        });
+    }
+});
+
+const data_to_confirm = data_info => {
+    const data_items = data_info.querySelector('a').textContent;
+    return data_items;
+}
+
+//funcion para eliminar sucursal
+async function delete_url(id) {
+    try {
+        const response = await delet(id);
+        console.log("Deleted successfully");
+        List();
+    } catch (error) {
+        console.error("Error deleting:", error);
+    }
+}
+
 
 /** Cerrar el modal */
 btn_close.addEventListener('click', () => {
@@ -154,5 +217,24 @@ dialog_url.addEventListener('cancel', () => {
 
 
 // Cargar la lista al inicio
-List();
+const toogle_btn = () => {
+    btn_login.classList.toggle("hidden");
+    btn_logout.classList.toggle("hidden");
+    btn_add.classList.toggle("hidden");
+    contenido_url.classList.toggle("hidden");
+    id_user.classList.toggle("hidden");
+}
+
+//cargar de info login
+function init() {
+
+    toogle_btn();
+
+    id_user.innerHTML = `
+    <div> ${currenUser.displayName} </div>
+    `;
+    // <img src="${currenUser.photoURL}" alt="User Avatar">
+
+    List();
+}
 
