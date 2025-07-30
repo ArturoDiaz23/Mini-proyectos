@@ -29,44 +29,91 @@
 
 <body>
 
-    <div id="app">
-        <button id="btn_login">Iniciar con google</button>
-        <button id="btn_logout" class="hidden">Cerrar sección</button>
+    <div id="nav">
+        <div id="app">
+            <md-filled-button id="btn_login">Iniciar con google</md-filled-button>
+            <md-filled-button id="btn_logout" class="hidden">Cerrar sección</md-filled-button>
+        </div>
+        <div class="hidden" id="id_user"></div>
     </div>
 
-    <md-fab aria-label="Add" id="btn_add">
+    <md-fab class="hidden" aria-label="Add" id="btn_add">
         <md-icon slot="icon">Add</md-icon>
     </md-fab>
 
-    <div id="id_user"></div>
 
-
-    <md-dialog id="dialog_sucursal">
+    <!-- ----------------------------------------------------------->
+    <!--     dialog add    -->
+    <md-dialog class="dialog_form" id="dialog_sucursal">
         <div slot="headline">
             Nueva sucursal
+            <div class="ripple">
+                <md-icon id="btn_close_add" class="btn_icon" slot="leading-icon">close</md-icon>
+                <md-ripple for="btn_close_add"></md-ripple>
+            </div>
         </div>
-        <form slot="content" id="form_sucursal" method="dialog">
+        <form slot="content" id="form_add" method="dialog">
             <md-outlined-text-field label="CR Sucursal" id="cr" name="cr" autocomplete="off"></md-outlined-text-field>
             <md-outlined-text-field label="sucursal" id="sucursal" name="sucursal" autocomplete="off">
             </md-outlined-text-field>
-            <md-outlined-text-field label="direccion" id="direccion" name="direccion" autocomplete="off">
+            <md-outlined-text-field label="Url google" id="direccion" name="direccion" autocomplete="off">
             </md-outlined-text-field>
-            <md-outlined-text-field label="municipio" id="municipio" name="municipio" autocomplete="off">
+            <md-outlined-text-field label="Municipio" id="municipio" name="municipio" autocomplete="off">
             </md-outlined-text-field>
-            <md-outlined-text-field label="estado" id="estado" name="esta" autocomplete="off">
+            <md-outlined-text-field label="Estado" id="estado" name="esta" autocomplete="off">
             </md-outlined-text-field>
-
-            <md-filled-tonal-button>Guardar</md-filled-tonal-button>
+            <md-filled-button>Guardar</md-filled-ton-button>
         </form>
         <div slot="actions">
-            <div id="msn"></div>
-            <md-filled-tonal-button id="btn_close">Cerrar</md-filled-tonal-button>
+            <md-text-button form="form-id">Ok</md-text-button>
+        </div>
+    </md-dialog>
+
+
+
+    <!-- ----------------------------------------------------------->
+    <!--     dialog update    -->
+    <md-dialog class="dialog_form" id="dialog_update">
+        <div class="headline" slot="headline">
+            Actualizar sucursal
+            <div class="ripple">
+                <md-ripple for="btn_close_update"></md-ripple>
+                <md-icon id="btn_close_update" class="btn_icon" slot=" leading-icon">close</md-icon>
+            </div>
+        </div>
+        <form slot="content" id="form_update" method="dialog">
+            <md-outlined-text-field label="CR Sucursal" id="update_cr" name="cr"
+                autocomplete="off"></md-outlined-text-field>
+            <md-outlined-text-field label="sucursal" id="update_sucursal" name="sucursal" autocomplete="off">
+            </md-outlined-text-field>
+            <md-outlined-text-field label="Url google" id="update_direccion" name="direccion" autocomplete="off">
+            </md-outlined-text-field>
+            <md-outlined-text-field label="Municipio" id="update_municipio" name="municipio" autocomplete="off">
+            </md-outlined-text-field>
+            <md-outlined-text-field label="Estado" id="update_estado" name="esta" autocomplete="off">
+            </md-outlined-text-field>
+            <input type="text" class="hidden" name="doc_id" id="update_doc_id">
+            <md-filled-button>Actualiar</md-filled-ton-button>
+        </form>
+    </md-dialog>
+
+    <!-- ----------------------------------------------------------->
+    <!--     dialog alert delet    -->
+    <md-dialog type="alert" id="alert_dialog">
+        <div slot="headline">Confirmación</div>
+        <form slot="content" id="form-alert" method="dialog">
+            ¿Está seguro de eliminar esta Sucursal?
+            <p id="id_delete" style="margin: 10px 0 0;"></p>
+        </form>
+        <div slot="actions">
+            <md-text-button form="form-alert" value="cancel">Cancelar</md-text-button>
+            <md-text-button form="form-alert" id="form_alert_eliminar">Eliminar</md-text-button>
         </div>
     </md-dialog>
 
 
     <!-- Contenido de sucursales-->
-    <div id="contanier">
+    <div id="content_sucursales" class="content_list hidden">
         <h1 class="md-typescale-display-small">Sucursales</h1>
         <md-divider></md-divider>
         <!-- Lista de sucursales-->
@@ -76,12 +123,27 @@
 
     <template id="template">
         <md-list-item>
-            <span id="cr"></span>
-            <span id="sucursal"></span>
-            <span id="municipio"></span>
-            <span id="estado"></span>
-            <a id="direccion" target="_blank"></a>
-            <!-- <span slot="trailing-supporting-text"> -->
+            <span class="template_cr"></span>
+            <span class="template_sucursal"></span>
+            <span class="template_municipio"></span>
+            <span class="template_estado"></span>
+            <a slot="trailing-supporting-text" class="template_direccion" target="_blank">
+                | Visitar
+                <!-- <md-icon slot="leading-icon">location_on</md-icon> -->
+            </a>
+            <span slot="trailing-supporting-text" class="material-symbols-outlined btn_icon btn_delete">
+                delete
+            </span>
+            <span slot="trailing-supporting-text" class="material-symbols-outlined btn_icon btn_update">
+                edit_square
+            </span>
+            <!-- <a slot="trailing-supporting-text">
+                <md-icon class="btn_icon btn_delete" slot="leading-icon">delete</md-icon>
+            </a> -->
+            <!-- <a slot="trailing-supporting-text">
+                <md-icon id="btn_up" class="btn_icon btn_update" slot="leading-icon">edit_square</md-icon>
+            </a> -->
+
         </md-list-item>
         <md-divider></md-divider>
     </template>

@@ -4,30 +4,43 @@ export async function insert(items) {
     try {
         const response = await db.collection("sucursales").add(items);
         return response;
-    } catch (error) {
-        throw new Error(error.message);
+    } catch (e) {
+        throw new Error(e.message);
     }
 }
 
 export async function getSucursales() {
     try {
-        let items = [];
-        // const querySucursales = await db.collection("sucursales").where("id_user", "==", userId).get();
+        const items = [];
 
-        // querySucursales.forEach(element => {
-        //     items.push(element.data());
-        // });
-        const querySucursales = await db
-            .collection("sucursales")
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    items.push(doc.data());
-                });
-            });
+        const querySuc = await db.collection("sucursales").get()
+
+        const querySnapshot = querySuc;
+        querySnapshot.forEach(doc => {
+            //doc.data();
+            items.push([doc.id, doc.data()]);
+        });
         return items;
-    } catch (error) {
-        throw new Error("Error fetching sucursales: " + error.message);
+    } catch (e) {
+        throw new Error("Error fetching sucursales: " + e.message);
+    }
+}
+
+export async function deleteSucursal(id) {
+    try {
+        const response = await db.collection("sucursales").doc(id).delete();
+        return response;
+    } catch (e) {
+        throw new Error("Error deleting sucursal: " + e.message);
+    }
+}
+
+export async function updateSucursal(id, datos) {
+    try {
+        console.log(id, datos);
+        const response = await db.collection("sucursales").doc(id).update(datos);
+        return response;
+    } catch (e) {
+        throw new Error('Error update sucursal' + e.message)
     }
 }

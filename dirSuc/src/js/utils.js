@@ -11,3 +11,13 @@ export const progress = (parent) => {
     progress.setAttribute('style', 'margin: 100px auto;');
     parent.appendChild(progress);
 }
+
+export const add_error = (parent, msn) => {
+    parent.setAttribute('error', '');
+    parent.setAttribute('error-text', msn);
+}
+
+export const remove_error = (parent) => {
+    parent.removeAttribute('error');
+    parent.removeAttribute('error-text');
+}
