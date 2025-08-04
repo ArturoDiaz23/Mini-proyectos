@@ -6,6 +6,8 @@ import { progress, validarURL, add_error, remove_error } from './functions.js';
 
 /** Llamado de id home */
 let url_input = document.getElementById('url_input');
+let name_input = document.getElementById('name_input');
+
 let btn_guardar = document.getElementById('btn_guardar');
 let btn_add = document.getElementById('btn_add');
 let dialog_url = document.getElementById('dialog_url');
@@ -84,20 +86,12 @@ const loading_data = () => {
         list.replaceChildren(); // Limpiar el contenido previo de la lista
         array.forEach(element => {
             template_list.querySelector('a').setAttribute('href', element[1].url);
-            template_list.querySelector('a').textContent = element[1].url;
+            template_list.querySelector('a').textContent = element[1].nombre + "/" + element[1].url;
             // template_list.querySelector('img').setAttribute('src', element.image);
             template_list.querySelector('.btn_delete').dataset.id = element[0];
 
             const clone = template_list.cloneNode(true);
             fragment.appendChild(clone);
-            // const listItem = document.createElement('md-list-item');
-            // const separador = document.createElement('md-divider');
-            // listItem.innerHTML = `
-            //         <a href="${element.url}" target="_blank">${element.url} </a>
-            //         <img slot="start" style="width: 56px" src="${element.image}">
-            //     `;
-            // list.appendChild(listItem);
-            // list.appendChild(separador);
         });
         list.appendChild(fragment);
     }, 800); // Simular un retraso para mostrar el progreso
@@ -129,6 +123,7 @@ btn_add.addEventListener('click', () => {
 
 document.getElementById('form-id').addEventListener('submit', (e) => {
     e.preventDefault();
+    e.stopPropagation();
     info.forEach(item => { array2.push(item[1]); });
     if (url_input.value === '') {
         add_error(url_input, 'Debe ingresar una Url');
@@ -137,7 +132,7 @@ document.getElementById('form-id').addEventListener('submit', (e) => {
     if (validarURL(array2, url_input.value) === false) {
         remove_error(url_input);
         // const data = new Object.fromEntries(new FormData(e.target));
-        add_newUrl(url_input.value);
+        add_newUrl(url_input.value, name_input.value);
         url_input.value = '';
         dialog_url.close();
         //msn.innerHTML = 'agregando... ';
@@ -147,13 +142,11 @@ document.getElementById('form-id').addEventListener('submit', (e) => {
         add_error(url_input, 'Ya existe en la Lista');
         return;
     }
-    e.stopPropagation();
-
 });
 
-async function add_newUrl(url) {
+async function add_newUrl(url, nombre) {
     try {
-        const items = { url: url }
+        const items = { url: url, nombre: nombre }
         const response = await insert(items);
         window.location.reload()
         loading_data();
@@ -162,6 +155,11 @@ async function add_newUrl(url) {
     }
 
 }
+
+url_input.addEventListener('input', () => {
+    const p = new URLPattern(url_input.value);
+    name_input.value = p.pathname.slice(1);
+});
 
 document.getElementById('icon-bottom').addEventListener('click', () => {
     url_input.value = '';
@@ -173,6 +171,7 @@ document.getElementById('icon-bottom').addEventListener('click', () => {
 //agregar evento a btn_delete
 list.addEventListener('click', e => {
     e.preventDefault();
+    e.stopPropagation();
     if (e.target.classList.contains('btn_delete')) {
         id_delete.textContent = data_to_confirm(e.target.parentElement);
         console.log(id_delete);
@@ -200,19 +199,19 @@ async function delete_url(id) {
     }
 }
 
-
 /** Cerrar el modal */
-btn_close.addEventListener('click', () => {
-    dialog_url.close();
+const limpiar = () => {
     msn.innerHTML = '';
     url_input.value = '';
     remove_error(url_input);
+}
+btn_close.addEventListener('click', () => {
+    dialog_url.close();
+    limpiar();
 });
 
 dialog_url.addEventListener('cancel', () => {
-    msn.innerHTML = '';
-    url_input.value = '';
-    remove_error(url_input);
+    limpiar();
 });
 
 

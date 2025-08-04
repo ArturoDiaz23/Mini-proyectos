@@ -75,7 +75,7 @@ btn_add.addEventListener('click', () => {
 // Enviar el formulario
 form_add.addEventListener("submit", (e) => {
     e.preventDefault();
-
+    e.stopPropagation();
     const cr = form_add['cr'];
     const sucursal = form_add['sucursal'];
     const direccion = form_add['direccion'];
@@ -151,7 +151,6 @@ async function delete_suc(id) {
 //agregar evento a btn_update
 container_suc.addEventListener('click', e => {
     e.preventDefault();
-    e.stopPropagation();
     if (e.target.classList.contains('btn_update')) {
         dialog_update.show();
         llenar_dialog(set_data_update(e.target.parentElement), e.target.dataset.id);
@@ -184,6 +183,7 @@ const llenar_dialog = (values, id) => {
 //enviar datos
 form_update.addEventListener('submit', e => {
     e.preventDefault();
+    e.stopPropagation();
     const update_cr = form_update['update_cr']; const update_sucursal = form_update['update_sucursal'];
     const update_direccion = form_update['update_direccion']; const update_municipio = form_update['update_municipio'];
     const update_estado = form_update['update_estado']; const update_doc_id = form_update['update_doc_id'];
@@ -202,7 +202,6 @@ form_update.addEventListener('submit', e => {
         };
         update_suc(update_doc_id.value, item);
     }
-
 });
 //Fuction para actualiza firebase
 async function update_suc(id, data) {
