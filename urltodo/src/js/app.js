@@ -86,7 +86,7 @@ const loading_data = () => {
         list.replaceChildren(); // Limpiar el contenido previo de la lista
         array.forEach(element => {
             template_list.querySelector('a').setAttribute('href', element[1].url);
-            template_list.querySelector('a').textContent = element[1].nombre + "/" + element[1].url;
+            template_list.querySelector('a').textContent = element[1].nombre;
             // template_list.querySelector('img').setAttribute('src', element.image);
             template_list.querySelector('.btn_delete').dataset.id = element[0];
 
