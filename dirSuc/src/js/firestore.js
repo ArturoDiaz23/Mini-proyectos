@@ -54,7 +54,6 @@ export async function getNext() {
             primerDoc = querySnapshot.docs[0] || null;
             ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
             items.push([doc.id, doc.data()]);
-
         });
         console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
         return items;
