@@ -146,7 +146,7 @@ document.getElementById('form-id').addEventListener('submit', (e) => {
         remove_error(url_input);
         // const data = new Object.fromEntries(new FormData(e.target));
         add_newUrl(url_input.value, name_input.value);
-        url_input.value = '';
+        limpiar();
         dialog_url.close();
         //msn.innerHTML = 'agregando... ';
         allData();
@@ -234,6 +234,7 @@ async function delete_url(id) {
 /** Cerrar el modal */
 const limpiar = () => {
     remove_error(url_input);
+name_input.valie = '';
     msn.innerHTML = '';
     url_input.value = '';
 }
