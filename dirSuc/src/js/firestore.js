@@ -23,8 +23,6 @@ export async function getSucursales() {
             .limit(limite)
             .get();
 
-
-
         const querySnapshot = querySuc;
         querySnapshot.forEach(doc => {
             primerDoc = querySnapshot.docs[0] || null;
@@ -55,7 +53,7 @@ export async function getNext() {
             ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
             items.push([doc.id, doc.data()]);
         });
-        console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
+        //console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
         return items;
     } catch (e) {
         throw new Error("Error fetching sucursales: " + e.message);
@@ -82,7 +80,7 @@ export async function getBefore() {
             items.push([doc.id, doc.data()]);
 
         });
-        console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
+        //console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
         return items;
     } catch (e) {
         throw new Error("Error fetching sucursales: " + e.message);

@@ -163,6 +163,16 @@ async function add_newUrl(url, nombre) {
         const items = { url: url, nombre: nombre }
         const response = await insert(items);
         loading_data();
+        Toastify({
+            text: "Insert successfully",
+            duration: 4000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: 'var(--success)'// --success, --warning, --danger
+            }
+        }).showToast();
     } catch (e) {
         console.log("Error insert: " + e);
     }
@@ -205,8 +215,17 @@ const data_to_confirm = data_info => {
 async function delete_url(id) {
     try {
         const response = await delet(id);
-        console.log("Deleted successfully");
         loading_data();
+        Toastify({
+            text: "Deleted successfully",
+            duration: 4000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: 'var(--success)'// --success, --warning, --danger
+            }
+        }).showToast();
     } catch (error) {
         console.error("Error deleting:", error);
     }

@@ -113,6 +113,16 @@ async function newSucursal(cr, sucursal, direccion, municipio, estado) {
         };
         const response = await insert(item);
         loadSucusales();
+        Toastify({
+            text: "Se agrego una nueva sucursal",
+            duration: 3000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: 'var(--success)'// --success, --warning, --danger
+            }
+        }).showToast();
     }
     catch (error) {
         console.error("Error adding new Sucursal:", error);
@@ -146,6 +156,16 @@ async function delete_suc(id) {
     try {
         const response = await deleteSucursal(id);
         console.log("Sucursal deleted successfully");
+        Toastify({
+            text: "Se elimino una sucursal",
+            duration: 3000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: 'var(--danger)'// --success, --warning, --danger
+            }
+        }).showToast();
         loadSucusales();
     } catch (error) {
         console.error("Error deleting Sucursal:", error);
@@ -162,7 +182,6 @@ container_suc.addEventListener('click', e => {
         llenar_dialog(set_data_update(e.target.parentElement), e.target.dataset.id);
     }
 });
-
 
 //obtener valor del item seleccionado
 const set_data_update = data_info => {
@@ -224,7 +243,7 @@ async function update_suc(id, data) {
 // función asincrona para llamas datos a la DB
 async function loadSucusales() {
     try {
-        const response = await getNext();
+        const response = await getSucursales();
         const data = await response;
         renderSuc(data)
     } catch (error) {
