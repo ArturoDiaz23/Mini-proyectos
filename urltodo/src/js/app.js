@@ -234,7 +234,7 @@ async function delete_url(id) {
 /** Cerrar el modal */
 const limpiar = () => {
     remove_error(url_input);
-name_input.valie = '';
+    name_input.value = '';
     msn.innerHTML = '';
     url_input.value = '';
 }
