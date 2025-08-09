@@ -4,7 +4,9 @@ import {
     insert,
     getSucursales,
     deleteSucursal,
-    updateSucursal
+    updateSucursal,
+    getNext,
+    getBefore
 } from "./firestore.js";
 import { progress, add_error, remove_error } from "./utils.js";
 
@@ -15,6 +17,9 @@ const btn_login = document.getElementById("btn_login");
 const btn_logout = document.getElementById("btn_logout");
 const content_list = document.getElementById("content_sucursales");
 const btn_add = document.getElementById("btn_add");
+
+const btn_antes = document.getElementById('antes');
+const btn_despues = document.getElementById('despues');
 
 
 //Form add sucursal
@@ -38,6 +43,7 @@ const template_suc = document.getElementById('template').content;
 const fragment = document.createDocumentFragment();
 
 let currenUser;
+
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -218,7 +224,7 @@ async function update_suc(id, data) {
 // función asincrona para llamas datos a la DB
 async function loadSucusales() {
     try {
-        const response = await getSucursales();
+        const response = await getNext();
         const data = await response;
         renderSuc(data)
     } catch (error) {
@@ -228,25 +234,59 @@ async function loadSucusales() {
 
 //funcion para cargar los datos al DOM
 const renderSuc = (array) => {
-    list.replaceChildren();
-    progress(list);
-    setTimeout(() => {
-        array.forEach((item) => {
-            list.replaceChildren(); // Limpiar el contenido previo de la lista
+    if (array.length > 0) {
+        list.replaceChildren();
+        progress(list);
+        setTimeout(() => {
+            array.forEach((item) => {
+                list.replaceChildren(); // Limpiar el contenido previo de la lista
 
-            template_suc.querySelector('.template_cr').textContent = item[1].cr;
-            template_suc.querySelector('.template_sucursal').textContent = item[1].sucursal;
-            template_suc.querySelector('.template_direccion').setAttribute('href', item[1].direccion);
-            template_suc.querySelector('.template_municipio').textContent = item[1].municipio;
-            template_suc.querySelector('.template_estado').textContent = item[1].estado;
-            template_suc.querySelector('.btn_delete').dataset.id = item[0];
-            template_suc.querySelector('.btn_update').dataset.id = item[0];
+                template_suc.querySelector('.template_cr').textContent = item[1].cr;
+                template_suc.querySelector('.template_sucursal').textContent = item[1].sucursal;
+                template_suc.querySelector('.template_direccion').setAttribute('href', item[1].direccion);
+                template_suc.querySelector('.template_municipio').textContent = item[1].municipio;
+                template_suc.querySelector('.template_estado').textContent = item[1].estado;
+                template_suc.querySelector('.btn_delete').dataset.id = item[0];
+                template_suc.querySelector('.btn_update').dataset.id = item[0];
 
-            const clone = template_suc.cloneNode(true);
-            fragment.appendChild(clone);
-        });
-        container_suc.appendChild(fragment);
-    }, 400); // Simular un retraso para mostrar el progreso
+                const clone = template_suc.cloneNode(true);
+                fragment.appendChild(clone);
+            });
+            container_suc.appendChild(fragment);
+        }, 400); // Simular un //retraso para mostrar el progreso
+    }
+
+}
+
+
+btn_despues.addEventListener('click', () => {
+    loadNext();
+});
+
+async function loadNext() {
+    try {
+        const response = await getNext();
+        const data = await response;
+        console.log(data);
+        renderSuc(data);
+    } catch (e) {
+        throw new Error("Error fetching sucursales: " + e.message);
+    }
+}
+
+btn_antes.addEventListener('click', () => {
+    loadBefore();
+});
+
+async function loadBefore() {
+    try {
+        const response = await getBefore();
+        const data = await response;
+        console.log(data);
+        renderSuc(data);
+    } catch (e) {
+        throw new Error("Error fetching sucursales: " + e.message);
+    }
 }
 
 btn_close_add.addEventListener('click', () => {

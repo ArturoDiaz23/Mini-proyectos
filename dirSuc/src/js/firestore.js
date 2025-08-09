@@ -1,5 +1,10 @@
 const db = firebase.firestore();
 
+var ultimoDoc = null;
+var primerDoc = null;
+
+const limite = 4;
+
 export async function insert(items) {
     try {
         const response = await db.collection("sucursales").add(items);
@@ -13,13 +18,72 @@ export async function getSucursales() {
     try {
         const items = [];
 
-        const querySuc = await db.collection("sucursales").get()
+        const querySuc = await db.collection("sucursales")
+            .orderBy('estado', 'asc')
+            .limit(limite)
+            .get();
+
+
 
         const querySnapshot = querySuc;
         querySnapshot.forEach(doc => {
-            //doc.data();
+            primerDoc = querySnapshot.docs[0] || null;
+            ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
             items.push([doc.id, doc.data()]);
         });
+        return items;
+    } catch (e) {
+        throw new Error("Error fetching sucursales: " + e.message);
+    }
+}
+
+export async function getNext() {
+    try {
+        const items = [];
+
+        const querySuc = await db.collection("sucursales")
+            .orderBy('estado', 'asc')
+            .limit(limite)
+            .startAfter(ultimoDoc)
+            .get()
+
+        const querySnapshot = querySuc;
+
+
+        querySnapshot.forEach(doc => {
+            primerDoc = querySnapshot.docs[0] || null;
+            ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
+            items.push([doc.id, doc.data()]);
+
+        });
+        console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
+        return items;
+    } catch (e) {
+        throw new Error("Error fetching sucursales: " + e.message);
+    }
+}
+
+export async function getBefore() {
+    try {
+        const items = [];
+
+        const querySuc = await db.collection("sucursales")
+            .orderBy('estado', 'asc')
+            .limit(limite)
+            .endBefore(primerDoc)
+            .get()
+
+        const querySnapshot = querySuc;
+
+
+        querySnapshot.forEach(doc => {
+            primerDoc = querySnapshot.docs[0] || null;
+            ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
+            //doc.data();
+            items.push([doc.id, doc.data()]);
+
+        });
+        console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
         return items;
     } catch (e) {
         throw new Error("Error fetching sucursales: " + e.message);

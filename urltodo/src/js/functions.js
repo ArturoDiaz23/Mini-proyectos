@@ -1,4 +1,16 @@
+//
+export const mostrar = (snapshot) => {
+    const documentos = [];
 
+    snapshot.forEach(snap => {
+        documentos.push({
+            id: snap.id,
+            ...snap.data()
+        });
+    });
+    //console.log(documentos)
+    return documentos;
+}
 
 // Function Create a circular progress element
 export const progress = (parent) => {

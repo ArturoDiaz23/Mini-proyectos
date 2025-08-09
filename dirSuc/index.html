@@ -66,8 +66,6 @@
         </form>
     </md-dialog>
 
-
-
     <!-- ----------------------------------------------------------->
     <!--     dialog update    -->
     <md-dialog class="dialog_form" id="dialog_update">
@@ -108,13 +106,16 @@
         </div>
     </md-dialog>
 
-
     <!-- Contenido de sucursales-->
     <div id="content_sucursales" class="content_list hidden">
         <h1 class="md-typescale-display-small">Sucursales</h1>
         <md-divider></md-divider>
         <!-- Lista de sucursales-->
         <md-list id="list"></md-list>
+        <nav id="pagina">
+            <md-filled-tonal-button id="antes">Anterior</md-filled-tonal-button>
+            <md-filled-tonal-button id="despues">Siguiente</md-filled-tonal-button>
+        </nav>
     </div>
 
 
@@ -144,6 +145,7 @@
         </md-list-item>
         <md-divider></md-divider>
     </template>
+
 
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>

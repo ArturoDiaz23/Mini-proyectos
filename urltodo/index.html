@@ -56,7 +56,7 @@
                 <md-outlined-text-field label="Ingresa Url" id="url_input" name="url_input">
                     <md-icon id="icon-bottom" slot="trailing-icon">cancel</md-icon>
                 </md-outlined-text-field>
-                <md-outlined-text-field label="" id="name_input" name="name_input">
+                <md-outlined-text-field disabled label="" id="name_input" name="name_input">
                     <!-- <md-icon id="icon-bottom" slot="trailing-icon">cancel</md-icon> -->
                 </md-outlined-text-field>
                 <md-filled-button id="btn_guardar">Guardar</md-filled-button>
@@ -108,6 +108,19 @@
         </md-list-item>
         <md-divider></md-divider>
     </template>
+
+
+    <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+
     <!-- Script-->
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>

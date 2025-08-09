@@ -1,6 +1,6 @@
 
 //import { cargarData } from './fetchJson.js';
-import { insert, get, delet } from './firestore.js';
+import { getAll, get, getNext, getBefore, insert, delet } from './firestore.js';
 
 import { progress, validarURL, add_error, remove_error } from './functions.js';
 
@@ -25,23 +25,11 @@ const template_list = document.getElementById('template').content;
 const fragment = document.createDocumentFragment();
 
 //botones paginacion
-let antes = document.getElementById('antes');
-let despues = document.getElementById('despues');
-let pag = 1;
-let offset = 0;
-let limit = 8;
+const btn_antes = document.getElementById('antes');
+const btn_despues = document.getElementById('despues');
 
-var info = await get();
-var array = info.slice(offset, limit);
-var array2 = [];
 
-// function load() {
-
-//     setTimeout(async () => {
-//         info = await get();
-//         array = info.slice(offset, limit);
-//     }, 100);
-// }
+let array2 = [];
 
 let currenUser;
 
@@ -68,52 +56,77 @@ btn_logout.addEventListener("click", async (e) => {
     logout();
 });
 
-// async function loading_data() {
-//     try {
-//         const response = await get();
-//         const info = await response;
-//         List(info);
-//     } catch (e) {
-//         throw new Error("Error loading: " + e.message);
-//     }
-// }
+/* Carga de datos */
+//Funcion DB all data
+async function allData() {
+    try {
+        const response = await getAll();
+        const info = await response;
+        array2 = [];
+        info.forEach(item => { array2.push(item); });
+        console.log(array2);
+    } catch (e) {
+        throw new Error("Error loading: " + e.message);
+    }
+}
+
+// función asincrona para llamas datos a la DB
+async function loading_data() {
+    try {
+        const response = await get();
+        const info = await response;
+        render_data(info);
+    } catch (e) {
+        throw new Error("Error loading: " + e.message);
+    }
+}
+
+async function loading_netx() {
+    try {
+        const response = await getNext();
+        const info = await response;
+        render_data(info);
+    } catch (e) {
+        throw new Error("Error loading: " + e.message);
+    }
+}
+
+async function loading_prev() {
+    try {
+        const response = await getBefore();
+        const info = await response;
+        render_data(info);
+    } catch (e) {
+        throw new Error("Error loading: " + e.message);
+    }
+}
 
 //carga datos de la DB
-const loading_data = () => {
+const render_data = (array) => {
     list.replaceChildren();
     progress(list);
     setTimeout(() => {
         list.replaceChildren(); // Limpiar el contenido previo de la lista
         array.forEach(element => {
-            template_list.querySelector('a').setAttribute('href', element[1].url);
-            template_list.querySelector('a').textContent = element[1].nombre + "/" + element[1].url;
+            template_list.querySelector('a').setAttribute('href', element.url);
+            template_list.querySelector('a').textContent = element.nombre;
             // template_list.querySelector('img').setAttribute('src', element.image);
-            template_list.querySelector('.btn_delete').dataset.id = element[0];
+            template_list.querySelector('.btn_delete').dataset.id = element.id;
 
             const clone = template_list.cloneNode(true);
             fragment.appendChild(clone);
         });
         list.appendChild(fragment);
-    }, 800); // Simular un retraso para mostrar el progreso
+    }, 300); // Simular un retraso para mostrar el progreso
 }
 
 /** Boton antes */
-antes.addEventListener('click', () => {
-    if (pag > 1) {
-        offset -= 8;
-        pag--;
-        array = info.slice(offset, limit * pag);
-        console.log(array);
-        loading_data();
-    }
+btn_antes.addEventListener('click', () => {
+    loading_prev();
 });
 /** Boton despues */
-despues.addEventListener('click', () => {
-    offset += 8;
-    pag++
-    array = info.slice(offset, limit * pag);
-    console.log(array);
-    loading_data();
+btn_despues.addEventListener('click', () => {
+    loading_netx();
 });
 
 /** Abrir el modal */
@@ -124,7 +137,7 @@ btn_add.addEventListener('click', () => {
 document.getElementById('form-id').addEventListener('submit', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    info.forEach(item => { array2.push(item[1]); });
+    //info.forEach(item => { array2.push(item[1]); });
     if (url_input.value === '') {
         add_error(url_input, 'Debe ingresar una Url');
         return;
@@ -136,6 +149,7 @@ document.getElementById('form-id').addEventListener('submit', (e) => {
         url_input.value = '';
         dialog_url.close();
         //msn.innerHTML = 'agregando... ';
+        allData();
 
     }
     if (validarURL(array2, url_input.value) === true) {
@@ -148,7 +162,6 @@ async function add_newUrl(url, nombre) {
     try {
         const items = { url: url, nombre: nombre }
         const response = await insert(items);
-        window.location.reload()
         loading_data();
     } catch (e) {
         console.log("Error insert: " + e);
@@ -162,7 +175,7 @@ url_input.addEventListener('input', () => {
 });
 
 document.getElementById('icon-bottom').addEventListener('click', () => {
-    url_input.value = '';
+    url_input.value = ''; name_input.value = '';
 });
 
 
@@ -178,6 +191,7 @@ list.addEventListener('click', e => {
         alert_dialog.show();
         form_alert_eliminar.addEventListener('click', () => {
             delete_url(e.target.dataset.id)
+            allData();
         });
     }
 });
@@ -192,7 +206,6 @@ async function delete_url(id) {
     try {
         const response = await delet(id);
         console.log("Deleted successfully");
-        window.location.reload()
         loading_data();
     } catch (error) {
         console.error("Error deleting:", error);
@@ -201,13 +214,13 @@ async function delete_url(id) {
 
 /** Cerrar el modal */
 const limpiar = () => {
+    remove_error(url_input);
     msn.innerHTML = '';
     url_input.value = '';
-    remove_error(url_input);
 }
 btn_close.addEventListener('click', () => {
-    dialog_url.close();
     limpiar();
+    dialog_url.close();
 });
 
 dialog_url.addEventListener('cancel', () => {
@@ -235,7 +248,7 @@ function init() {
     <div> ${currenUser.displayName} </div>
     `;
     // <img src="${currenUser.photoURL}" alt="User Avatar">
-
+    allData();
     loading_data();
 }
 
