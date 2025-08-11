@@ -146,7 +146,7 @@ document.getElementById('form-id').addEventListener('submit', (e) => {
         remove_error(url_input);
         // const data = new Object.fromEntries(new FormData(e.target));
         add_newUrl(url_input.value, name_input.value);
-        url_input.value = '';
+        limpiar();
         dialog_url.close();
         //msn.innerHTML = 'agregando... ';
         allData();
@@ -166,7 +166,7 @@ async function add_newUrl(url, nombre) {
         Toastify({
             text: "Insert successfully",
             duration: 4000,
-            gravity: "bottom", // `top` or `bottom`
+            gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
             stopOnFocus: true, // Prevents dismissing of toast on hover
             style: {
@@ -219,7 +219,7 @@ async function delete_url(id) {
         Toastify({
             text: "Deleted successfully",
             duration: 4000,
-            gravity: "bottom", // `top` or `bottom`
+            gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
             stopOnFocus: true, // Prevents dismissing of toast on hover
             style: {
@@ -234,6 +234,7 @@ async function delete_url(id) {
 /** Cerrar el modal */
 const limpiar = () => {
     remove_error(url_input);
+    name_input.value = '';
     msn.innerHTML = '';
     url_input.value = '';
 }
