@@ -17,6 +17,8 @@ const btn_login = document.getElementById("btn_login");
 const btn_logout = document.getElementById("btn_logout");
 const content_list = document.getElementById("content_sucursales");
 const btn_add = document.getElementById("btn_add");
+const data_user = document.getElementById("data_user");
+const id_user = document.getElementById("id_user");
 
 const btn_antes = document.getElementById('antes');
 const btn_despues = document.getElementById('despues');
@@ -286,7 +288,7 @@ async function loadNext() {
     try {
         const response = await getNext();
         const data = await response;
-        console.log(data);
+        // console.log(data);
         renderSuc(data);
     } catch (e) {
         throw new Error("Error fetching sucursales: " + e.message);
@@ -301,7 +303,7 @@ async function loadBefore() {
     try {
         const response = await getBefore();
         const data = await response;
-        console.log(data);
+        // console.log(data);
         renderSuc(data);
     } catch (e) {
         throw new Error("Error fetching sucursales: " + e.message);
@@ -339,7 +341,7 @@ const toogle_btn = () => {
     btn_logout.classList.toggle("hidden");
     btn_add.classList.toggle("hidden");
     content_list.classList.toggle("hidden");
-    id_user.classList.toggle("hidden");
+    data_user.classList.toggle("hidden");
 }
 
 //cargar de info login
@@ -348,9 +350,29 @@ function init() {
     toogle_btn();
 
     id_user.innerHTML = `
-    <img src="${currenUser.photoURL}" alt="User Avatar">
-    <div> ${currenUser.displayName} </div>
+    <span> ${currenUser.displayName} </span>
     `;
+    // <img src="${currenUser.photoURL}" alt="User Avatar">
 
     loadSucusales();
 }
+
+moment.lang('es', {
+    months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+    monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+    weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+    weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+    weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+}
+);
+
+const f = document.getElementById('fecha');
+f.innerText = moment().format('DD/MM/YYYY');
+
+
+const texto = document.getElementById("texto");
+const btn = document.getElementById("btn_copiar");
+
+btn.addEventListener('click', () => {
+    navigator.clipboard.writeText(texto.innerText);
+});

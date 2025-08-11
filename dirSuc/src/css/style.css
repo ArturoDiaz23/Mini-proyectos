@@ -8,7 +8,7 @@
     --md-sys-color-surface-container-high: #e3e9e9;
     /*--md-fab-container-shape: 0px;*/
 
-    background-color: #f4fbfa;
+    --background-color: #f4fbfa;
 
 
     --success: #198754;
@@ -18,8 +18,7 @@
 
 body {
     font-family: sans-serif;
-
-    margin: 30px;
+    background: var(--background-color);
 }
 
 #nav {
@@ -42,11 +41,11 @@ md-filled-tonal-button:first-child {
     margin-right: 10px;
 }
 
-#id_user {
+.id_user {
     align-items: center;
 }
 
-#id_user img {
+.id_user img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
