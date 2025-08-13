@@ -42,7 +42,7 @@
     </nav>
 
     <div class="hidden mt-5 mb-4" id="data_user">
-        <details class="card card-body container">
+        <details class="card card-body container"> <!-- name ="name" for all details cerrar or close-->
             <summary>Mostrar</summary>
             <div id="texto">
                 <p>
@@ -142,14 +142,13 @@
         </nav>
     </div>
 
-
     <template id="template">
         <md-list-item>
             <span class="template_cr"></span>
             <span class="template_sucursal"></span>
             <span class="template_municipio"></span>
             <span class="template_estado"></span>
-            <a slot="trailing-supporting-text" class="template_direccion" target="_blank">
+            <a slot="trailing-supporting-text" class="template_direccion">
                 | Visitar
                 <!-- <md-icon slot="leading-icon">location_on</md-icon> -->
             </a>
@@ -179,9 +178,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
         integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
         crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
-
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -189,6 +185,7 @@
     </script>
     <script defer type="module" src="src/js/init-firebase.js"></script>
     <script src="src/js/app.js" type="module"></script>
+    <script src="src/js/moment.js"></script>
 
 </body>
 

@@ -262,19 +262,25 @@ const renderSuc = (array) => {
             array.forEach((item) => {
                 list.replaceChildren(); // Limpiar el contenido previo de la lista
 
-                template_suc.querySelector('.template_cr').textContent = item[1].cr;
-                template_suc.querySelector('.template_sucursal').textContent = item[1].sucursal;
-                template_suc.querySelector('.template_direccion').setAttribute('href', item[1].direccion);
-                template_suc.querySelector('.template_municipio').textContent = item[1].municipio;
-                template_suc.querySelector('.template_estado').textContent = item[1].estado;
-                template_suc.querySelector('.btn_delete').dataset.id = item[0];
-                template_suc.querySelector('.btn_update').dataset.id = item[0];
+                template_suc.querySelector('.template_cr').textContent = item.cr;
+                template_suc.querySelector('.template_sucursal').textContent = item.sucursal;
+                template_suc.querySelector('.template_direccion').setAttribute("target", "_blank");
+                template_suc.querySelector('.template_direccion').setAttribute("href", item.direccion);
+                template_suc.querySelector('.template_municipio').textContent = item.municipio;
+                template_suc.querySelector('.template_estado').textContent = item.estado;
+                template_suc.querySelector('.btn_delete').dataset.id = item.id;
+                template_suc.querySelector('.btn_update').dataset.id = item.id;
 
                 const clone = template_suc.cloneNode(true);
                 fragment.appendChild(clone);
             });
             container_suc.appendChild(fragment);
-        }, 400); // Simular un //retraso para mostrar el progreso
+        }, 200); // Simular un //retraso para mostrar el progreso
+    } else {
+        list.innerHTML = `<div class="d-flex flex-column align-self-center m-5">
+        <h4 class="fw-bold" >Sin Datos</h4>
+        <span class="data_info material-symbols-outlined align-self-center">data_info_alert</span>
+        <div>`;
     }
 
 }
@@ -357,15 +363,8 @@ function init() {
     loadSucusales();
 }
 
-moment.lang('es', {
-    months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
-    monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
-    weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
-    weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
-    weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
-}
-);
 
+//copiar datso para pase de lista
 const f = document.getElementById('fecha');
 f.innerText = moment().format('DD/MM/YYYY');
 

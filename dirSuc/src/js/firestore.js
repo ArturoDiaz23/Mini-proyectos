@@ -3,7 +3,7 @@ const db = firebase.firestore();
 var ultimoDoc = null;
 var primerDoc = null;
 
-const limite = 4;
+const limite = 5;
 
 export async function insert(items) {
     try {
@@ -27,7 +27,11 @@ export async function getSucursales() {
         querySnapshot.forEach(doc => {
             primerDoc = querySnapshot.docs[0] || null;
             ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
-            items.push([doc.id, doc.data()]);
+            //items.push([doc.id, doc.data()]);
+            items.push({
+                id: doc.id,
+                ...doc.data()
+            });
         });
         return items;
     } catch (e) {
@@ -51,7 +55,11 @@ export async function getNext() {
         querySnapshot.forEach(doc => {
             primerDoc = querySnapshot.docs[0] || null;
             ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
-            items.push([doc.id, doc.data()]);
+            //items.push([doc.id, doc.data()]);
+            items.push({
+                id: doc.id,
+                ...doc.data()
+            });
         });
         //console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);
         return items;
@@ -77,7 +85,11 @@ export async function getBefore() {
             primerDoc = querySnapshot.docs[0] || null;
             ultimoDoc = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
             //doc.data();
-            items.push([doc.id, doc.data()]);
+            //items.push([doc.id, doc.data()]);
+            items.push({
+                id: doc.id,
+                ...doc.data()
+            });
 
         });
         //console.log(`primero: ${primerDoc.id} -- Ultimo: ${ultimoDoc.id}`);

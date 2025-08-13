@@ -118,7 +118,7 @@ md-filled-tonal-button:first-child {
     margin-right: 10px;
 }
 
-md-list md-list-item a {
+.template_direccion {
     color: black;
     text-decoration: none;
 }
@@ -150,4 +150,25 @@ md-list md-divider:last-child {
 .ripple {
     position: relative;
     border-radius: 5px;
+}
+
+
+/*--------- details efect open -------------*/
+details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition-property: block-size, content-visibility;
+    transition-duration: 0.5s;
+    transition-behavior: allow-discrete;
+
+}
+
+details[open]::details-content {
+    block-size: auto;
+    block-size: calc-size(auto, size);
+}
+
+.data_info {
+    font-size: 80px !important;
+    color: rgba(0, 0, 0, 0.6);
 }
