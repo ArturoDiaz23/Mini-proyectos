@@ -135,7 +135,7 @@ async function newSucursal(cr, sucursal, direccion, municipio, estado) {
 /** Funcion y event para eliminar una sucursal */
 //agregar evento a btn_delete
 container_suc.addEventListener('click', e => {
-    e.preventDefault();
+    //e.preventDefault();
     if (e.target.classList.contains('btn_delete')) {
         id_delete.textContent = data_to_confirm(e.target.parentElement);
         alert_dialog.show();
@@ -178,7 +178,7 @@ async function delete_suc(id) {
 //Funcion y evento para actualizar datos en una sucursal
 //agregar evento a btn_update
 container_suc.addEventListener('click', e => {
-    e.preventDefault();
+   // e.preventDefault();
     if (e.target.classList.contains('btn_update')) {
         dialog_update.show();
         llenar_dialog(set_data_update(e.target.parentElement), e.target.dataset.id);
